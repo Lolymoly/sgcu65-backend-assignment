@@ -1,92 +1,86 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const router = express.Router()
-const User = require('../models/user')
+const Task = require('../models/task')
 
 const jsonParser = bodyParser.json()
 
 router.get('/', async (req, res) => {
 
     let query = {}
-    if(req.body.firstname) query.firstname = req.body.firstname;
-    if(req.body.surname) query.surname = req.body.surname;
-    if(req.body.role) query.role = req.body.role;
+    if(req.body.name) query.name = req.body.name;
+    if(req.body.content) query.content = req.body.content;
+    if(req.body.status) query.status = req.body.status;
 
     try {
-        const users = await User.find(query)
-        res.json(users)
+        const tasks = await Task.find(query)
+        res.json(tasks)
     } catch (err) {
         res.status(500).json({message: err.message})
     }
 })
 
-router.get('/:id', getUser, async (req, res) => {
-    // res.send(res.user.firstname)
-    res.json(res.user)
+router.get('/:id', getTask, async (req, res) => {
+    res.json(res.task)
 })
 
 router.post('/', async (req, res) => {
-    // console.log(req.firstname)
-    // console.log(req.surname)
-    const user = new User({
-        email: req.body.email,
-        firstname: req.body.firstname,
-        surname: req.body.surname,
-        role: req.body.role,
-        salary: req.body.salary
+    const task = new Task({
+        name: req.body.name,
+        content: req.body.content,
+        status: req.body.status,
+        deadline: req.body.deadline,
     })
     try {
-        const newUser = await user.save()
-        res.status(201).json(newUser)
+        const newTask = await task.save()
+        res.status(201).json(newTask)
     } catch (err) {
         res.status(400).json({message: err.message})
     }
 })
 
-router.patch('/:id', getUser, async (req, res) => {
-    if(req.body.email != null) {
-        res.user.email = req.body.email
+router.patch('/:id', getTask, async (req, res) => {
+    if(req.body.name != null) {
+        res.task.name = req.body.name
     }
-    if(req.body.firstname != null) {
-        res.user.firstname = req.body.firstname
+    if(req.body.content != null) {
+        res.task.content = req.body.content
     }
-    if(req.body.surname != null) {
-        res.user.surname = req.body.surname
+    if(req.body.status != null) {
+        res.task.status = req.body.status
     }
-    if(req.body.role != null) {
-        res.user.role = req.body.role
+    if(req.body.deadline != null) {
+        res.task.deadline = req.body.deadline
     }
-    if(req.body.salary != null) {
-        res.user.salary = req.body.salary
-    }
+
     try {
-        const updatedUser = await res.user.save()
-        res.json(updatedUser)
+        const updatedTask = await res.task.save()
+        res.json(updatedTask)
     } catch (err) {
         res.status(400).json({message: err.message})
     }
 })
 
-router.delete('/:id', getUser, async (req, res) => {
+router.delete('/:id', getTask, async (req, res) => {
     try {
-        await res.user.remove()
-        res.json({message: "user deleted"})
+        await res.task.remove()
+        res.json({message: "task deleted"})
     } catch (err) {
         res.status(500).json({message: err.message})
     }
 })
 
-async function getUser(req, res, next) {
+async function getTask(req, res, next) {
     let user;
     try {
-        user = await User.findById(req.params.id)
-        if (user == null) {
-            return res.status(404).json({message: "Can't find this user"})
+        task = await Task.findById(req.params.id)
+        if (task == null) {
+            return res.status(404).json({message: "Can't find this task"})
         }
     } catch (err) {
         return res.status(500).json({message: err.message})
     }
-    res.user = user;
+    res.task = task;
     next()
 }
 
