@@ -1,0 +1,27 @@
+{
+  "name": "sgcu65-backend-assignment",
+  "version": "1.0.0",
+  "description": "[Insert Your Name Here]",
+  "main": "index.js",
+  "scripts": {
+    "devstart": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lolymoly/sgcu65-backend-assignment.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Lolymoly/sgcu65-backend-assignment/issues"
+  },
+  "homepage": "https://github.com/Lolymoly/sgcu65-backend-assignment#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.4.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.1",
+    "nodemon": "^2.0.18"
+  }
+}
