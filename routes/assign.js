@@ -3,25 +3,40 @@ const bodyParser = require('body-parser')
 const router = express.Router()
 const Task = require('../models/task')
 const User = require('../models/user')
-
+const mongoose = require('mongoose')
 const jsonParser = bodyParser.json()
 
 
 router.post('/:id', async (req, res) => {
-    let objectIDList;
+    let userIDList;
     if(req.body.users instanceof Array) {
-        objectIDList = req.body.users;
+        userIDList = req.body.users;
     }
     else {
-        objectIDList = [req.body.users]
+        userIDList = [req.body.users]
     }
+
     Task.updateOne({_id: req.params.id},  {
         $addToSet: {
             usersList: {
-            $each: objectIDList
+                $each: userIDList
             }
         }
     }).exec().then(response => res.json(response))
+
+
+
+    User.updateMany({_id: {
+        $in: userIDList
+    }}, {
+        $addToSet: {
+            tasksList: {
+                $each: [req.params.id]
+            }
+        }
+    }).exec()
+    
+    return;
 })
 
 
