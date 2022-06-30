@@ -20,6 +20,9 @@ app.use('/users', usersRouter)
 const tasksRouter = require('./routes/tasks')
 app.use('/tasks', tasksRouter)
 
+const assignRouter = require('./routes/assign')
+app.use('/assign', assignRouter)
+
 app.listen(3000, () => {
     console.log("Server started")
 })

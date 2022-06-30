@@ -12,6 +12,9 @@ const taskSchema = new mongoose.Schema({
     },
     deadline: {
         type: Date
+    },
+    usersList: {
+        type: [mongoose.Schema.Types.ObjectId]
     }
 })
 

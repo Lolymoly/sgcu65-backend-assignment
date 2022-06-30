@@ -16,6 +16,9 @@ const userSchema = new mongoose.Schema({
     },
     salary: {
         type: Number
+    },
+    tasksList: {
+        type: [mongoose.Schema.Types.ObjectId]
     }
 })
 
