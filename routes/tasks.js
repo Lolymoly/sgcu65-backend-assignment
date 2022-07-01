@@ -29,7 +29,7 @@ router.post('/', verify.checkLogin, verify.checkAdmin, async (req, res) => {
         name: req.body.name,
         content: req.body.content,
         status: req.body.status,
-        deadline: req.body.deadline,
+        deadline: req.body.deadline
     })
     try {
         const newTask = await task.save()
@@ -71,7 +71,7 @@ router.delete('/:id', verify.checkLogin, verify.checkAdmin, getTask, async (req,
 })
 
 async function getTask(req, res, next) {
-    let user;
+    let task;
     try {
         task = await Task.findById(req.params.id)
         if (task == null) {

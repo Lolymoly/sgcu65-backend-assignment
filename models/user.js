@@ -24,7 +24,8 @@ const userSchema = new mongoose.Schema({
         type: Number
     },
     tasksList: {
-        type: [mongoose.Schema.Types.ObjectId]
+        type: [mongoose.Schema.Types.ObjectId],
+        default: []
     }
 })
 

@@ -14,7 +14,8 @@ const taskSchema = new mongoose.Schema({
         type: Date
     },
     usersList: {
-        type: [mongoose.Schema.Types.ObjectId]
+        type: [mongoose.Schema.Types.ObjectId],
+        default: []
     }
 })
 
