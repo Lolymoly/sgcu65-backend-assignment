@@ -51,6 +51,12 @@ router.post('/login', async (req, res) => {
     if(!validPass) return res.status(400).send("Wrong password")
 
     const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+
+    // console.log(token)
+    // console.log(user._id)
+    // const decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+    // console.log(decoded)
+
     res.header('auth-token', token).send(token)
 })
 

@@ -4,9 +4,9 @@ const router = express.Router()
 const User = require('../models/user')
 
 const jsonParser = bodyParser.json()
+const verify = require('./verifyToken')
 
-router.get('/', async (req, res) => {
-
+router.get('/', verify.checkLogin, verify.checkAdmin, async (req, res) => {
     let query = {}
     if(req.body.firstname) query.firstname = req.body.firstname;
     if(req.body.surname) query.surname = req.body.surname;
@@ -20,12 +20,12 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/:id', getUser, async (req, res) => {
+router.get('/:id', verify.checkLogin, verify.checkAdmin, getUser, async (req, res) => {
     // res.send(res.user.firstname)
     res.json(res.user)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', verify.checkLogin, verify.checkAdmin, async (req, res) => {
     // console.log(req.firstname)
     // console.log(req.surname)
     const user = new User({
@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.patch('/:id', getUser, async (req, res) => {
+router.patch('/:id', verify.checkLogin, verify.checkAdmin, getUser, async (req, res) => {
     if(req.body.email != null) {
         res.user.email = req.body.email
     }
@@ -67,7 +67,7 @@ router.patch('/:id', getUser, async (req, res) => {
     }
 })
 
-router.delete('/:id', getUser, async (req, res) => {
+router.delete('/:id', verify.checkLogin, verify.checkAdmin, getUser, async (req, res) => {
     try {
         await res.user.remove()
         res.json({message: "user deleted"})

@@ -5,7 +5,7 @@ const Task = require('../models/task')
 const jsonParser = bodyParser.json()
 const verify = require('./verifyToken')
 
-router.get('/', async (req, res) => {
+router.get('/', verify.checkLogin, async (req, res) => {
 
     let query = {}
     if(req.body.name) query.name = req.body.name;
@@ -20,11 +20,11 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/:id', getTask, async (req, res) => {
+router.get('/:id', verify.checkLogin, getTask, async (req, res) => {
     res.json(res.task)
 })
 
-router.post('/', verify, async (req, res) => {
+router.post('/', verify.checkLogin, verify.checkAdmin, async (req, res) => {
     const task = new Task({
         name: req.body.name,
         content: req.body.content,
@@ -39,7 +39,7 @@ router.post('/', verify, async (req, res) => {
     }
 })
 
-router.patch('/:id', verify, getTask, async (req, res) => {
+router.patch('/:id', verify.checkLogin, verify.checkAdmin, getTask, async (req, res) => {
     if(req.body.name != null) {
         res.task.name = req.body.name
     }
@@ -61,7 +61,7 @@ router.patch('/:id', verify, getTask, async (req, res) => {
     }
 })
 
-router.delete('/:id', verify, getTask, async (req, res) => {
+router.delete('/:id', verify.checkLogin, verify.checkAdmin, getTask, async (req, res) => {
     try {
         await res.task.remove()
         res.json({message: "task deleted"})
