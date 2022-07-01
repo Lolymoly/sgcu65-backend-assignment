@@ -5,8 +5,34 @@ const User = require('../models/user')
 
 const jsonParser = bodyParser.json()
 const verify = require('./verifyToken')
+const bcrypt = require('bcryptjs')
 
-router.get('/', verify.checkLogin, verify.checkAdmin, async (req, res) => {
+router.post('/changepassword', verify.checkLogin, async (req, res) => {
+    const userID = req.user._id;
+    const thisUser = await User.findOne({_id: userID});
+
+    const salt = await bcrypt.genSalt(10)
+    const hashPassword = await bcrypt.hash(req.body.newpassword, salt)
+
+    thisUser.password = hashPassword
+    try {
+        const updateUser = await thisUser.save()
+        res.status(201).send(updateUser)
+    } catch (err) {
+        return res.status(400).send(err)
+    }
+
+})
+
+router.get('/', verify.checkLogin, async (req, res) => {
+    const userID = req.user._id;
+    const thisUser = await User.findOne({_id: userID});
+    const userRole = thisUser.role
+    if(userRole != "admin") {
+        // user can only view yourself data
+        return res.send(thisUser)
+    }
+
     let query = {}
     if(req.body.firstname) query.firstname = req.body.firstname;
     if(req.body.surname) query.surname = req.body.surname;
