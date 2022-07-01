@@ -2,8 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const router = express.Router()
 const Task = require('../models/task')
-
 const jsonParser = bodyParser.json()
+const verify = require('./verifyToken')
 
 router.get('/', async (req, res) => {
 
@@ -24,7 +24,7 @@ router.get('/:id', getTask, async (req, res) => {
     res.json(res.task)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', verify, async (req, res) => {
     const task = new Task({
         name: req.body.name,
         content: req.body.content,
@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
     }
 })
 
-router.patch('/:id', getTask, async (req, res) => {
+router.patch('/:id', verify, getTask, async (req, res) => {
     if(req.body.name != null) {
         res.task.name = req.body.name
     }
@@ -61,7 +61,7 @@ router.patch('/:id', getTask, async (req, res) => {
     }
 })
 
-router.delete('/:id', getTask, async (req, res) => {
+router.delete('/:id', verify, getTask, async (req, res) => {
     try {
         await res.task.remove()
         res.json({message: "task deleted"})
