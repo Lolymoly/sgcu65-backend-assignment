@@ -23,6 +23,9 @@ app.use('/tasks', tasksRouter)
 const assignRouter = require('./routes/assign')
 app.use('/assign', assignRouter)
 
+const authRouter = require('./routes/auth')
+app.use(authRouter)
+
 app.listen(3000, () => {
     console.log("Server started")
 })
