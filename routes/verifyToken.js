@@ -23,7 +23,7 @@ module.exports.checkAdmin = async function (req, res, next) {
         if(userRole != "admin") return res.status(403).send("Permission required")
         next()
     } catch (err) {
-        return res.status(400).json(error)
+        return res.status(400).json(err)
     }
 }
 
