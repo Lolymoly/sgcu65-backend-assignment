@@ -6,9 +6,10 @@ const User = require('../models/user')
 const Team = require('../models/team')
 const mongoose = require('mongoose')
 const jsonParser = bodyParser.json()
+const verify = require('./verifyToken')
 
 
-router.post('/:id', async (req, res) => {
+router.post('/:id', verify.checkLogin, verify.checkAdmin, async (req, res) => {
     let userIDList;
     if(req.body.users instanceof Array) {
         userIDList = req.body.users;
@@ -23,7 +24,7 @@ router.post('/:id', async (req, res) => {
                 $each: userIDList
             }
         }
-    }).exec().then(response => res.json(response))
+    }).exec()
 
 
 
@@ -37,10 +38,10 @@ router.post('/:id', async (req, res) => {
         }
     }).exec()
     
-    return;
+    res.send("Success")
 })
 
-router.post('/team/user', async (req, res) => {
+router.post('/team/user', verify.checkLogin, verify.checkAdmin, async (req, res) => {
     //assign user to team
     const team = await Team.findById(req.body.teamid)
     const user = await User.findById(req.body.userid)
