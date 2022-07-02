@@ -26,6 +26,7 @@ router.post('/', verify.checkLogin, verify.checkAdmin, async (req, res) => {
     const team = new Team({
         name: req.body.name,
     })
+
     try {
         const newTeam = await team.save()
         res.status(201).json(newTeam)

@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const router = express.Router()
 const Task = require('../models/task')
 const User = require('../models/user')
+const Team = require('../models/team')
 const mongoose = require('mongoose')
 const jsonParser = bodyParser.json()
 
@@ -39,34 +40,33 @@ router.post('/:id', async (req, res) => {
     return;
 })
 
+router.post('/team/user', async (req, res) => {
+    //assign user to team
+    const team = await Team.findById(req.body.teamid)
+    const user = await User.findById(req.body.userid)
 
+    if(!team) return res.status(404).send("Invalid Team")
+    if(!user) return res.status(404).send("Invalid User")
 
-async function getTask(req, res, next) {
-    let user;
-    try {
-        task = await Task.findById(req.params.id)
-        if (task == null) {
-            return res.status(404).json({message: "Can't find this task"})
-        }
-    } catch (err) {
-        return res.status(500).json({message: err.message})
+    if(team.usersList.includes(user._id)) {
+        return res.status(400).send("User already in this team")
     }
-    res.task = task;
-    next()
-}
 
-async function getUser(req, res, next) {
-    let user;
+    team.usersList.push(user._id)
+    user.team = team._id
+
     try {
-        user = await User.findById(req.params.id)
-        if (user == null) {
-            return res.status(404).json({message: "Can't find this user"})
-        }
+        const updatedUser = await user.save()
+        const updatedTeam = await team.save()
+        res.json({
+            "user" : updatedUser,
+            "team" : updatedTeam
+        })
     } catch (err) {
-        return res.status(500).json({message: err.message})
+        res.status(400).json({message: err.message})
     }
-    res.user = user;
-    next()
-}
+})
+
+
 
 module.exports = router
