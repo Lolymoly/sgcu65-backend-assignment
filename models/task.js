@@ -16,6 +16,10 @@ const taskSchema = new mongoose.Schema({
     usersList: {
         type: [mongoose.Schema.Types.ObjectId],
         default: []
+    },
+    teamsList: {
+        type: [mongoose.Schema.Types.ObjectId],
+        default: []
     }
 })
 

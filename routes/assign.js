@@ -67,6 +67,30 @@ router.post('/team/user', async (req, res) => {
     }
 })
 
+router.post('/team/task', async (req, res) => {
+    //assign task to team
+    const team = await Team.findById(req.body.teamid)
+    const task = await Task.findById(req.body.taskid)
 
+    if(!team) return res.status(404).send("Invalid Team")
+    if(!task) return res.status(404).send("Invalid Task")
+
+    if(team.tasksList.includes(task._id)) {
+        return res.status(400).send("Team already contain this Task")
+    }
+
+    team.tasksList.push(task._id)
+    task.teamsList.push(team._id)
+    try {
+        const updatedTask = await task.save()
+        const updatedTeam = await team.save()
+        res.json({
+            "task" : updatedTask,
+            "team" : updatedTeam
+        })
+    } catch (err) {
+        res.status(400).json({message: err.message})
+    }
+})
 
 module.exports = router
