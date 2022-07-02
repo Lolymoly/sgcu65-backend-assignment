@@ -6,6 +6,7 @@ const User = require('../models/user')
 const jsonParser = bodyParser.json()
 const verify = require('./verifyToken')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 router.post('/changepassword', verify.checkLogin, async (req, res) => {
     const userID = req.user._id;
@@ -56,6 +57,7 @@ router.post('/', verify.checkLogin, verify.checkAdmin, async (req, res) => {
     // console.log(req.surname)
     const user = new User({
         email: req.body.email,
+        password : req.body.password,
         firstname: req.body.firstname,
         surname: req.body.surname,
         role: req.body.role,
@@ -63,7 +65,11 @@ router.post('/', verify.checkLogin, verify.checkAdmin, async (req, res) => {
     })
     try {
         const newUser = await user.save()
-        res.status(201).json(newUser)
+        const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+        res.status(201).json({
+            "user" : newUser,
+            "token" : token
+        })
     } catch (err) {
         res.status(400).json({message: err.message})
     }
