@@ -55,9 +55,13 @@ router.get('/:id', verify.checkLogin, verify.checkAdmin, getUser, async (req, re
 router.post('/', verify.checkLogin, verify.checkAdmin, async (req, res) => {
     // console.log(req.firstname)
     // console.log(req.surname)
+
+    const salt = await bcrypt.genSalt(10)
+    const hashPassword = await bcrypt.hash(req.body.password, salt)
+
     const user = new User({
         email: req.body.email,
-        password : req.body.password,
+        password : hashPassword,
         firstname: req.body.firstname,
         surname: req.body.surname,
         role: req.body.role,
