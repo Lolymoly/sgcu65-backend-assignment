@@ -15,11 +15,15 @@ module.exports.checkLogin = function (req, res, next) {
 }
 
 module.exports.checkAdmin = async function (req, res, next) {
-    const userID = req.user._id;
-    const thisUser = await User.findOne({_id: userID});
-    const userRole = thisUser.role
+    try {
+        const userID = req.user._id;
+        const thisUser = await User.findOne({_id: userID});
+        const userRole = thisUser.role
 
-    if(userRole != "admin") return res.status(403).send("Permission required")
-    next()
+        if(userRole != "admin") return res.status(403).send("Permission required")
+        next()
+    } catch (err) {
+        return res.status(400).json(error)
+    }
 }
 
