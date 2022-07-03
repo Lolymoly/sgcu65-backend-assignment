@@ -1,5 +1,45 @@
 # About This Project
 
+- [About This Project](#about-this-project)
+  - [Tech Stack](#tech-stack)
+  - [Checklist](#checklist)
+  - [How To Use](#how-to-use)
+  - [Schema Details](#schema-details)
+    - [1. User](#1-user)
+    - [2. Task](#2-task)
+    - [3. Team](#3-team)
+  - [Routes](#routes)
+    - [1. /users](#1-users)
+    - [2. /tasks](#2-tasks)
+    - [3. /assign](#3-assign)
+    - [4. /login, /register](#4-login-register)
+  - [About Authorization](#about-authorization)
+  - [About Security](#about-security)
+  - [**API**](#api)
+    - [1. Register](#1-register)
+    - [2. Login](#2-login)
+    - [3. User](#3-user)
+      - [3.1 Show Users](#31-show-users)
+      - [3.2 Show User by ID](#32-show-user-by-id)
+      - [3.3 Create User without register](#33-create-user-without-register)
+      - [3.4 Update User](#34-update-user)
+      - [3.5 Delete User](#35-delete-user)
+    - [4. Task](#4-task)
+      - [4.1 Get Tasks](#41-get-tasks)
+      - [4.2 Get Task by ID](#42-get-task-by-id)
+      - [4.3 Create New Task](#43-create-new-task)
+      - [4.4 Update Task](#44-update-task)
+      - [4.5 Delete Task](#45-delete-task)
+    - [5. Team](#5-team)
+      - [5.1 Get Teams](#51-get-teams)
+      - [5.2 Create Team](#52-create-team)
+      - [5.3 Update Team](#53-update-team)
+      - [5.4 Delete Team](#54-delete-team)
+    - [6. Assign](#6-assign)
+      - [6.1 Assign Task to Users](#61-assign-task-to-users)
+      - [6.2 Assign User to Team](#62-assign-user-to-team)
+      - [6.3 Assign Task to Team](#63-assign-task-to-team)
+
 ## Tech Stack
 - Framework : Express.js
 - Database : MongoDB
@@ -17,28 +57,28 @@
 ## How To Use
 
 1. Download this repository
-1. สร้างไฟล์ .env
+2. สร้างไฟล์ .env
 จากนั้นใส่ข้อมูลตามนี้ เพื่อใช้ในการ connect กับ database และสร้าง token
 
 ```
 DATABASE_URL = mongodb+srv://sgcu123:sgcu123@cluster0.bde09vg.mongodb.net/sgcutee
 TOKEN_SECRET = qAdtXZ#%@zxcTBbasDdHqr
 ```
-&nbsp;
 
-### 3. ติดตั้ง node.js, npm, postman (ใช้ในการยิง api)
-&nbsp;
+3. ติดตั้ง node.js, npm, postman (ใช้ในการยิง api)
 
-### 4. Run code ด้วยคำสั่ง
+4. Run code ด้วยคำสั่ง
 ```
 npm run devstart
 ```
-&nbsp;
 
-### 5. ใช้ URL localhost:3000
+5. ใช้ URL localhost:3000
+   
 &nbsp;
 
 ## Schema Details
+___ 
+&nbsp;
 
 ### 1. User
 ```
@@ -68,10 +108,8 @@ usersList: เก็บ id ของ user ทุกคนที่อยู่�
 tasksList: เก็บ id ของ task ทุกชิ้นที่ถูกมอบหมายให้ทีมนี้ [Array]
 ```
 
----
-
-## API Details
 &nbsp;
+
 
 ## Routes
 ___
@@ -87,6 +125,7 @@ ___
 ### 4. /login, /register
 สำหรับ login, register ตามลำดับ
 
+&nbsp;
 
 ## About Authorization
 ___
@@ -104,6 +143,8 @@ ___
 - email ที่สมัครจะถูกนำมา validate ก่อนว่าเป็น format ที่ถูกต้อง
 - password ของ database และ secretkey จะถูกเก็บไว้ในไฟล์ .env ซึ่งจะไม่แสดงใน production แต่ในที่นี้จะนำมาใส่ในวิธีติดตั้งเพื่อใช้ในการ test เป็นกรณีพิเศษ
 - มีการจำกัด permission ของบาง api ว่าต้องล็อกอินก่อน หรือต้องเป็น admin ค่อยใช้งานได้
+
+&nbsp;
 
 ## **API**
 &nbsp;
@@ -124,6 +165,8 @@ ___
 }
 ```
 
+&nbsp;
+
 ## 2. Login
 ___
 Login ด้วย email และ password ซึ่งถ้าล็อกอินสำเร็จจะ return token ไว้ใช้ในการยิง api
@@ -137,6 +180,8 @@ Login ด้วย email และ password ซึ่งถ้าล็อกอ
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmMwNjZjNGU2YzM2ZGUzZGEzYWJkMDciLCJpYXQiOjE2NTY3ODg0MjZ9.qYj0xKiHgOBMxNf0SLDYCtYU0NoEBAh_hhr04iLbUhk
 ```
+
+&nbsp;
 
 ## 3. User
 ___
@@ -259,6 +304,8 @@ ___
 }
 ```
 
+&nbsp;
+
 ## 4. Task
 ___
 &nbsp;
@@ -370,6 +417,8 @@ ___
 }
 ```
 
+&nbsp;
+
 ## 5. Team
 ___
 &nbsp;
@@ -464,6 +513,8 @@ ___
     "message": "team deleted"
 }
 ```
+
+&nbsp;
 
 ## 6. Assign
 ___
@@ -566,4 +617,4 @@ ___
 
 ___ 
 
-### ธีธัช วิษณุโยธิน
+ธีธัช วิษณุโยธิน
