@@ -71,9 +71,18 @@ TOKEN_SECRET = qAdtXZ#%@zxcTBbasDdHqr
 ```
 npm run devstart
 ```
+Note: ถ้าขึ้น error เกี่ยวกับ dotenv ให้ติดตั้ง dotenv ก่อนด้วยคำสั่ง `npm install dotenv --save`
 
 5. ใช้ URL localhost:3000
-   
+
+account สำหรับการเทส
+```
+{
+    "email": "admin@gmail.com",
+    "password" : "1234"
+}
+```
+
 &nbsp;
 
 ## Schema Details
