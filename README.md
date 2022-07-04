@@ -50,7 +50,7 @@
 ## Checklist
 - [x] Complete Minimum Requirements
 - [x] Complete Optional Requirements
-- [ ] Complete Documentation
+- [x] Complete Documentation
 
 &nbsp;
 
@@ -623,6 +623,21 @@ ___
     }
 }
 ```
+
+## Assumption
+- User แต่ละคนอยู่ได้แค่ 1 ทีม
+- User ที่มีทีมแล้ว อาจมีงานที่มอบหมายแบบส่วนตัวได้
+- ชื่อ task สามารถซ้ำกันได้
+- firstname, surname สามารถซ้ำกันได้
+
+## Additional Idea
+- สร้าง api ที่มีหน้าที่ unassign งานออกจาก user/team
+- สร้าง api ที่มีหน้าที่ unassign user ออกจาก team
+- ทำให้สามารถค้นหา task, user ด้วย prefix ได้ (ไม่จำเป็นต้องพิมพ์ชื่อให้เต็ม)
+- กำหนด permission แต่ละ api เป็นรายบุคคลได้
+
+
+&nbsp;
 
 ___ 
 
